@@ -79,3 +79,4 @@ public class TeleOpAcrux extends LinearOpMode {
 
     }
 }
+void public camera(){}
