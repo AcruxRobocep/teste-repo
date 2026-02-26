@@ -1,0 +1,81 @@
+package org.firstinspires.ftc.teamcode;
+
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.hardwareMap;
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.linearOpMode;
+
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotor;
+
+@TeleOp
+public class TeleOpAcrux extends LinearOpMode {
+    DcMotor LB;
+    DcMotor RB;
+    DcMotor RF;
+    DcMotor LF;
+    DcMotor MO;
+    DcMotor MI;
+    double x;
+    double y;
+    double r;
+
+    boolean CtrlinTake = false, CtrloutTake = false;
+
+
+    @Override
+    public void runOpMode(){
+        LF = hardwareMap.get(DcMotor.class,"LF");
+        LB = hardwareMap.get(DcMotor.class,"LB");
+        RF = hardwareMap.get(DcMotor.class,"RF");
+        RB = hardwareMap.get(DcMotor.class,"RB");
+        MO = hardwareMap.get(DcMotor.class,"MO");
+        MI = hardwareMap.get(DcMotor.class,"MI");
+
+        waitForStart();
+
+        while (opModeIsActive()){
+            movimentacao();
+            controles();
+        }
+    }
+
+    public void movimentacao(){
+        y = (-gamepad1.left_stick_y);
+        x = (gamepad1.left_stick_x);
+        r = (gamepad1.right_stick_x);
+
+        LF.setPower(y + x + r);
+        RF.setPower(y - x - r);
+        RB.setPower(y - x + r);
+        LB.setPower(y + x - r);
+    }
+
+    public void controles(){
+
+        // Activate Motors
+        if(CtrlinTake){
+            MI.setPower(1);
+        }else {
+            MI.setPower(0);
+        }
+
+        if(CtrloutTake){
+            MO.setPower(1);
+        } else{
+            MO.setPower(0);
+        }
+
+
+        // Controller
+        if(gamepad1.leftBumperWasPressed()){
+            CtrlinTake  = !CtrlinTake;
+        }
+
+        if(gamepad1.rightBumperWasPressed()){
+            CtrloutTake = !CtrloutTake;
+        }
+
+
+
+    }
+}
